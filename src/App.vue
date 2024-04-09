@@ -32,7 +32,8 @@ const compareFiles = async () => {
 
 try {
   const uploadedFileContent = await readFile(file.value);
-  const answer = await readLocalFile();
+  var answer = await readLocalFile();
+  answer = await decryptCSV(answer,3)
   var correct = 0;
   var error = 0;
   for (let i = 1; i < answer.length; i++) {
@@ -71,7 +72,7 @@ const readFile = (file) => {
   });
 };
 const readLocalFile = async () => {
-  const response = await fetch('/answer-forTA.csv');
+  const response = await fetch('answer.csv');
   if (!response.ok) {
     throw new Error('無法讀取正確答案');
   }
@@ -104,7 +105,31 @@ const readLocalFile = async () => {
 
   return result;
 };
+const caesarCipherDecrypt = (ciphertext, shift) => {
+      let plaintext = "";
+      for (let i = 0; i < ciphertext.length; i++) {
+          let charCode = ciphertext.charCodeAt(i);
+          if (charCode >= 65 && charCode <= 90) {
+              plaintext += String.fromCharCode(((charCode - 65 - shift + 26) % 26) + 65);
+          } else if (charCode >= 97 && charCode <= 122) {
+              plaintext += String.fromCharCode(((charCode - 97 - shift + 26) % 26) + 97);
+          } else {
+              plaintext += ciphertext.charAt(i);
+          }
+      }
+      return plaintext;
+};
+const decryptCSV = (inputArray, shift) => {
+      let decrypted = [];
+      for (let i = 0; i < inputArray.length; i++) {
+          let decryptedLine = inputArray[i].map(field => caesarCipherDecrypt(field, shift));
+          decrypted.push(decryptedLine);
+      }
+      return decrypted
+};
 
+
+  
 </script>
 
 <style>
