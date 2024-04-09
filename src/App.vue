@@ -71,7 +71,7 @@ const readFile = (file) => {
   });
 };
 const readLocalFile = async () => {
-  const response = await fetch('./src/assets/answer-forTA.csv');
+  const response = await fetch('/answer-forTA.csv');
   if (!response.ok) {
     throw new Error('無法讀取正確答案');
   }
