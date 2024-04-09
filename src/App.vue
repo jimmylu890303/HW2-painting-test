@@ -33,6 +33,8 @@ const compareFiles = async () => {
 try {
   const uploadedFileContent = await readFile(file.value);
   const answer = await readLocalFile();
+  console.log(answer)
+  console.log(uploadedFileContent)
   var correct = 0;
   var error = 0;
   for (let i = 0; i < answer.length; i++) {
