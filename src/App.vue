@@ -33,17 +33,15 @@ const compareFiles = async () => {
 try {
   const uploadedFileContent = await readFile(file.value);
   const answer = await readLocalFile();
-  console.log(answer)
-  console.log(uploadedFileContent)
   var correct = 0;
   var error = 0;
-  for (let i = 0; i < answer.length; i++) {
-    if(answer[i][1] == uploadedFileContent[i][1]) 
+  for (let i = 1; i < answer.length; i++) {
+    if(answer[i][1].trim() == uploadedFileContent[i][1].trim())
       correct = correct + 1
     else
       error = error + 1
   } 
-  accurancy.value = (correct / answer.length)*100
+  accurancy.value = (correct / (answer.length-1))*100
   showAcc.value = true
   
   console.log(accurancy)
